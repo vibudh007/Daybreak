@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# ESP-IDF Partition Table
+# Name, Type, SubType, Offset, Size, Flags
+nvs,      data, nvs,     0x9000,  20K
+factory,  app,  factory, 0x10000, 0x3E0000

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Install Daybreak</title>
+  <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+  <style>
+    :root{color-scheme:dark;font-family:system-ui,sans-serif;background:#111827;color:#f9fafb}
+    body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;box-sizing:border-box}
+    main{width:min(100%,500px);padding:32px;border:1px solid #374151;border-radius:20px;background:#1f2937;box-sizing:border-box}
+    h1{margin:0 0 12px;font-size:2rem}p{line-height:1.5;color:#d1d5db}
+    esp-web-install-button{display:block;margin:24px 0}
+    button{font:inherit;font-weight:700;border:0;border-radius:12px;padding:14px 20px;background:#60a5fa;color:#111827;cursor:pointer}
+    a{color:#93c5fd}
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Install Daybreak</h1>
+    <p>For the 2.8-inch ESP32-2432S028 board with a 240 × 320 ILI9341 display.</p>
+    <p>Connect the board with a data USB cable, then use desktop Chrome or Edge.</p>
+    <esp-web-install-button manifest="./manifest.json">
+      <button slot="activate">Install Daybreak</button>
+      <span slot="unsupported">This browser cannot use Web Serial. Open this page in desktop Chrome or Edge.</span>
+      <span slot="not-allowed">Open this installer over HTTPS to connect to your board.</span>
+    </esp-web-install-button>
+    <p>After installation, follow the Wi-Fi setup on the screen. Erasing the device removes saved settings.</p>
+    <p><a href="https://github.com/vibudh007/Daybreak#option-2-install-locally">Local install instructions</a></p>
+  </main>
+</body>
+</html>
