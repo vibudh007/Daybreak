@@ -1,6 +1,6 @@
 # Daybreak
 
-Daybreak turns the CYD, a 2.8-inch ESP32-2432S028 touchscreen, into a dashboard for the your home. It shows the time and weather, German transport departures, and Home Assistant toggles.
+Daybreak turns the CYD (Cheap Yellow Display), a 2.8-inch ESP32-2432S028 touchscreen, into a dashboard for the your home. It shows the time and weather, German transport departures, and Home Assistant toggles.
 
 ## Features
 
