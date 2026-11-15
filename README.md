@@ -20,7 +20,7 @@ Daybreak is designed for the 2.8-inch, 240 × 320 ILI9341 ESP32-2432S028 based C
 3. Press **Install or update Daybreak**, select the board's USB Serial port, and follow the prompts. On Linux, this is usually `ttyUSB0`; ignore `ttyS` ports.
 4. Follow the Wi-Fi setup on the screen after the board restarts.
 
-The installer uses Espressif's browser flasher and the firmware files from the [current release](https://github.com/vibudh007/Daybreak/releases/tag/v3.0.13-dev). It keeps saved Wi-Fi and app settings by default. Tick **Clear saved Wi-Fi and settings** only for a fresh installation. Close any serial monitor or other installer tab before connecting.
+The installer uses Espressif's browser flasher and the firmware files from the [current release](https://github.com/vibudh007/Daybreak/releases/tag/v3.0.14-dev). It keeps saved Wi-Fi and app settings by default. Tick **Clear saved Wi-Fi and settings** only for a fresh installation. Close any serial monitor or other installer tab before connecting.
 
 If Chrome on Linux reports a connection failure after another serial tool was used, its serial read setting may need resetting. Close the installer tab, run `stty -F /dev/ttyUSB0 min 1 time 0` for the board's actual port, then reopen the installer. The [local install](#option-2-install-locally) is available if Web Serial still fails.
 
@@ -32,7 +32,7 @@ If Chrome on Linux reports a connection failure after another serial tool was us
    python -m pip install esptool
    ```
 
-2. Download the `_FULL.bin` file from the [current release](https://github.com/vibudh007/Daybreak/releases/tag/v3.0.13-dev).
+2. Download the `_FULL.bin` file from the [current release](https://github.com/vibudh007/Daybreak/releases/tag/v3.0.14-dev).
 3. Connect the board and find its serial port: usually `/dev/ttyUSB0` on Linux or `COM5` on Windows. Replace `PORT` below with your port, and replace `FIRMWARE.bin` with the downloaded file name:
 
    ```sh
@@ -44,7 +44,7 @@ If Chrome on Linux reports a connection failure after another serial tool was us
 The full image is for a fresh installation and clears saved app settings. To update an existing Daybreak installation while keeping settings, download the `_APP.bin` file instead and flash it at `0x10000`:
 
 ```sh
-python -m esptool --chip esp32 --port PORT write-flash 0x10000 Daybreak_v3.0.13-dev_R_APP.bin
+python -m esptool --chip esp32 --port PORT write-flash 0x10000 Daybreak_v3.0.14-dev_R_APP.bin
 ```
 
 ## Build from source

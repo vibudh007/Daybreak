@@ -46,7 +46,10 @@ void drawTextKeyboard() {
     tft.setTextColor(getTextColor());
     tft.setTextDatum(MC_DATUM);
     tft.setFreeFont(&FreeSansBold12pt7b);
-    if (activeConfig.title && activeConfig.title[0]) tft.drawString(activeConfig.title, 160, 20);
+    if (activeConfig.title && activeConfig.title[0]) {
+        if (tft.textWidth(activeConfig.title) > 300) tft.setFreeFont(&FreeSans9pt7b);
+        tft.drawString(activeConfig.title, UiLayout::SCREEN_W / 2, 20);
+    }
 
     redrawTextKeyboardInput();
 

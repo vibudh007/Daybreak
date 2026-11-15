@@ -523,12 +523,29 @@ void drawCoords() {
     label("Tap either value to edit", 12, 108);
 }
 
+const char *keyboardTitle(Edit field) {
+    switch (field) {
+        case Edit::WifiName: return "Enter Wi-Fi Network";
+        case Edit::WifiPassword: return "Enter Wi-Fi Password";
+        case Edit::Stop: return "Enter Stop Name";
+        case Edit::City: return "Enter City Name";
+        case Edit::HaUrl: return "Enter Home Assistant URL";
+        case Edit::HaUser: return "Enter Home Assistant Username";
+        case Edit::HaPassword: return "Enter Home Assistant Password";
+        case Edit::Latitude: return "Enter Latitude";
+        case Edit::Longitude: return "Enter Longitude";
+        case Edit::None: return "Enter Text";
+    }
+    return "Enter Text";
+}
+
 void openKeyboard(Edit field, const String &initial = "") {
     edit = field; input = initial; shift = false;
     numbers = field == Edit::Latitude || field == Edit::Longitude;
     revealed = false;
     view = View::Keyboard;
     TextKeyboardConfig kb;
+    kb.title = keyboardTitle(field);
     kb.text = &input; kb.shifted = &shift; kb.numbers = &numbers;
     kb.revealText = &revealed;
     kb.maskText = field == Edit::WifiPassword || field == Edit::HaPassword;

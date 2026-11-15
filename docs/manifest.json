@@ -1,6 +1,6 @@
 {
   "name": "Daybreak",
-  "version": "3.0.13-dev",
+  "version": "3.0.14-dev",
   "new_install_prompt_erase": true,
   "new_install_improv_wait_time": 0,
   "builds": [
@@ -9,15 +9,15 @@
       "improv": false,
       "parts": [
         {
-          "path": "https://vibudh007.github.io/Daybreak/firmware/Daybreak_v3.0.13-dev_R_BOOTLOADER.bin",
+          "path": "https://vibudh007.github.io/Daybreak/firmware/Daybreak_v3.0.14-dev_R_BOOTLOADER.bin",
           "offset": 4096
         },
         {
-          "path": "https://vibudh007.github.io/Daybreak/firmware/Daybreak_v3.0.13-dev_R_PARTITIONS.bin",
+          "path": "https://vibudh007.github.io/Daybreak/firmware/Daybreak_v3.0.14-dev_R_PARTITIONS.bin",
           "offset": 32768
         },
         {
-          "path": "https://vibudh007.github.io/Daybreak/firmware/Daybreak_v3.0.13-dev_R_APP.bin",
+          "path": "https://vibudh007.github.io/Daybreak/firmware/Daybreak_v3.0.14-dev_R_APP.bin",
           "offset": 65536
         }
       ]

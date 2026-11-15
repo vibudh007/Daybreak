@@ -27,7 +27,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p docs/firmware
-          gh release download v3.0.13-dev --repo "$GITHUB_REPOSITORY" --dir docs/firmware --pattern '*_APP.bin' --pattern '*_BOOTLOADER.bin' --pattern '*_PARTITIONS.bin'
+          gh release download v3.0.14-dev --repo "$GITHUB_REPOSITORY" --dir docs/firmware --pattern '*_APP.bin' --pattern '*_BOOTLOADER.bin' --pattern '*_PARTITIONS.bin'
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
