@@ -5,6 +5,7 @@ const erase = document.querySelector("#erase");
 const status = document.querySelector("#status");
 const progress = document.querySelector("#progress");
 const log = document.querySelector("#log");
+const supportedAdapters = new Set([0x1a86, 0x10c4, 0x0403]);
 
 function writeLog(message) {
   log.textContent = (log.textContent + message).slice(-6000);
@@ -37,6 +38,13 @@ button.addEventListener("click", async () => {
     // The port chooser must run immediately after the click.
     status.textContent = "Choose the CYD's USB serial port.";
     const port = await navigator.serial.requestPort();
+    const info = port.getInfo();
+    // Some Linux browser packages omit USB IDs even for real USB serial ports.
+    if (info.usbVendorId !== undefined && !supportedAdapters.has(info.usbVendorId))
+      throw new Error("That port does not appear to be the CYD's USB serial adapter. Choose its USB Serial or ttyUSB port.");
+    writeLog(info.usbVendorId === undefined
+      ? "Browser did not provide a USB ID for the selected port.\n"
+      : `Selected USB adapter ${info.usbVendorId.toString(16)}:${info.usbProductId?.toString(16) || "?"}\n`);
     status.textContent = "Downloading firmware…";
     const parts = await firmwareParts();
     const totalBytes = parts.reduce((sum, part) => sum + part.data.length, 0);
@@ -68,16 +76,20 @@ button.addEventListener("click", async () => {
       flashSize: "4MB",
       eraseAll: erase.checked,
       compress: true,
-      reportProgress(index, written) {
-        progress.value = Math.min(100, Math.round((previousBytes[index] + written) * 100 / totalBytes));
+      reportProgress(index, written, compressedTotal) {
+        const completed = previousBytes[index] + parts[index].data.length * written / compressedTotal;
+        progress.value = Math.min(100, Math.round(completed * 100 / totalBytes));
       },
     });
     await loader.after("hard_reset");
     progress.value = 100;
     status.textContent = "Daybreak installed. The board is restarting.";
   } catch (error) {
+    const message = error.message || String(error);
     status.textContent = error.name === "NotFoundError" ? "No serial port selected." :
-      `Installation stopped: ${error.message || error}. Check the log and retry.`;
+      /Failed to connect with the device|The device has been lost/.test(message) ?
+        "Could not connect to the CYD. Check the selected USB Serial port and the connection troubleshooting below." :
+        `Installation stopped: ${message}. See troubleshooting below.`;
     writeLog(`\n${error.stack || error}\n`);
   } finally {
     if (transport) {

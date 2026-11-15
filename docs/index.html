@@ -21,12 +21,18 @@
   <main>
     <h1>Install Daybreak</h1>
     <p>For the 2.8-inch ESP32-2432S028 board with a 240 × 320 ILI9341 display.</p>
-    <p>Connect the board with a data USB cable, then use desktop Chrome or Edge. Close any serial monitor before installing.</p>
+    <p>Connect the board with a data USB cable, then use desktop Chrome or Edge. Close any serial monitor before installing. Select the board's USB Serial port; on Linux it is usually <code>ttyUSB0</code>. Ignore <code>ttyS</code> ports.</p>
     <label><input id="erase" type="checkbox">Clear saved Wi-Fi and settings (fresh installation)</label>
     <button id="install" type="button">Install or update Daybreak</button>
     <p id="status" role="status" aria-live="polite">Your saved settings will be kept unless you tick the box above.</p>
     <progress id="progress" max="100" value="0" hidden></progress>
     <details><summary>Connection and installation log</summary><pre id="log"></pre></details>
+    <details><summary>Connection troubleshooting</summary>
+      <p>If Chrome says it cannot connect, check that you chose the board's USB Serial port and close any app using it.</p>
+      <p>On Linux, Chrome can lose a serial device after another flashing tool leaves its read setting at zero. If this happens, close the installer tab, run the following command for <em>your board's port</em>, then reopen the installer:</p>
+      <pre>stty -F /dev/ttyUSB0 min 1 time 0</pre>
+      <p>Replace <code>/dev/ttyUSB0</code> if your board uses a different port. If the browser still fails, use the local installation instructions below.</p>
+    </details>
     <p>After installation, follow the Wi-Fi setup on the screen if needed.</p>
     <p><a href="https://github.com/vibudh007/Daybreak#option-2-install-locally">Local install instructions</a></p>
   </main>
