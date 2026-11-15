@@ -11,3 +11,5 @@ PlatformIO downloads the dependencies pinned in `platformio.ini`. Their code and
 | Arduino-ESP32 bundled ESP-IDF libraries | `5.5.0+sha.07e9bf4970` | Package metadata lists LGPL-2.1-or-later; [build sources](https://github.com/espressif/esp32-arduino-lib-builder). Individual ESP-IDF components may carry additional licenses; consult the corresponding component sources and notices in the pinned package. |
 
 These notices accompany the released binaries. For the complete license terms of a dependency, consult its pinned source and package metadata.
+
+The browser installer loads [esptool-js 0.7.1](https://github.com/espressif/esptool-js/releases/tag/v0.7.1) from a CDN. It is licensed under Apache-2.0.

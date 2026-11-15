@@ -17,10 +17,10 @@ Daybreak is designed for the 2.8-inch, 240 × 320 ILI9341 ESP32-2432S028 based C
 
 1. Connect the board to your computer with a data-capable USB cable.
 2. Open the [Daybreak web installer](https://vibudh007.github.io/Daybreak/) in desktop Chrome or Edge.
-3. Press **Install Daybreak**, select the board's serial port, and follow the prompts.
+3. Press **Install or update Daybreak**, select the board's serial port, and follow the prompts.
 4. Follow the Wi-Fi setup on the screen after the board restarts.
 
-The installer uses ESP Web Tools and the firmware files from the [current release](https://github.com/vibudh007/Daybreak/releases/tag/v3.0.13-dev). It can offer to erase the device during installation. Erasing removes saved Wi-Fi and app settings; keep them when updating an existing Daybreak installation.
+The installer uses Espressif's browser flasher and the firmware files from the [current release](https://github.com/vibudh007/Daybreak/releases/tag/v3.0.13-dev). It keeps saved Wi-Fi and app settings by default. Tick **Clear saved Wi-Fi and settings** only for a fresh installation. Close any serial monitor or other installer tab before connecting.
 
 ### Option 2: Install locally
 
