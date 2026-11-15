@@ -1,16 +1,15 @@
 # Daybreak
 
-Daybreak turns a 2.8-inch ESP32-2432S028 touchscreen into a small hallway dashboard for the moment you head out. It shows the time and weather, nearby Berlin-Brandenburg transport departures, and selected Home Assistant controls.
+Daybreak turns the CYD, a 2.8-inch ESP32-2432S028 touchscreen, into a dashboard for the your home. It shows the time and weather, German transport departures, and Home Assistant toggles.
 
 ## Features
 
 - Digital or analog clock, date, moon phase, and hourly and daily weather
 - Two direction-separated lists for a saved public transport stop, with live times and disruption notes
 - A scrollable Home Assistant page for chosen lights and other toggles
-- Touchscreen setup, light and dark themes, brightness control, and configurable page order
-- Saved settings that survive a restart
+- Light and dark themes, brightness control, and configurable page order
 
-Daybreak is designed for the **2.8-inch, 240 × 320 ILI9341 ESP32-2432S028** board with the pin layout in [`include/User_Setup.h`](include/User_Setup.h). Other CYD variants may need changes before flashing. Wi-Fi is required for live data.
+Daybreak is designed for the 2.8-inch, 240 × 320 ILI9341 ESP32-2432S028 based CYD. Other CYD variants may need changes before flashing. 2.4 GHz Wi-Fi is required for live data.
 
 ## Install
 
