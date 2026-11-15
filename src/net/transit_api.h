@@ -7,7 +7,7 @@ namespace transit {
 
 constexpr uint8_t MAX_MATCHES = 8;
 constexpr uint8_t MAX_SERVICES = 16;
-constexpr uint8_t MAX_ROUTE_DIRECTIONS = MAX_SERVICES;
+constexpr uint8_t MAX_CANDIDATES = 32;
 
 enum class Product : uint8_t { Sbahn, Ubahn, Tram, Bus, Ferry, Regional, Express, Unknown };
 
@@ -20,6 +20,7 @@ struct Stop {
 
 struct Service {
     String tripId;
+    String stopId;
     String line;
     String lineId;
     String standardDirection;
@@ -27,8 +28,9 @@ struct Service {
     String when;
     String platform;
     String remark;
-    uint8_t directionSide = 0;
-    bool onTime = false;
+    bool hasDelay = false;
+    bool useHeadsign = false;
+    bool hasTravelBearing = false;
     Product product = Product::Unknown;
     int delaySeconds = 0;
     int64_t epoch = 0;
@@ -37,16 +39,9 @@ struct Service {
     float destinationLatitude = 0;
     float destinationLongitude = 0;
     bool hasDirectionCoordinates = false;
+    float travelX = 0;
+    float travelY = 0;
     bool cancelled = false;
-};
-
-struct RouteDirections {
-    String lineId;
-    String sideADirection;
-    String sideBDirection;
-    float axisX = 0;
-    float axisY = 0;
-    bool axisReady = false;
 };
 
 struct State {
@@ -60,8 +55,8 @@ struct State {
     Service directionB[MAX_SERVICES / 2];
     uint8_t directionACount = 0;
     uint8_t directionBCount = 0;
-    RouteDirections routeDirections[MAX_ROUTE_DIRECTIONS];
-    uint8_t routeDirectionCount = 0;
+    uint8_t unverifiedCount = 0;
+    bool directionsPending = false;
     bool boardLoaded = false;
 };
 

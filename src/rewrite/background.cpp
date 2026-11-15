@@ -95,8 +95,9 @@ void worker(void *) {
             const unsigned long now = millis();
             {
                 NetworkLock lock;
+                const unsigned long transportInterval = transit::state.directionsPending ? 15000UL : REFRESH_MS;
                 if (transit::state.savedStop.id.length() &&
-                    (transportRequested.exchange(false) || !lastTransport || now - lastTransport >= REFRESH_MS)) {
+                    (transportRequested.exchange(false) || !lastTransport || now - lastTransport >= transportInterval)) {
                     transit::refreshBoard();
                     publishBoard();
                     log_i("[CACHE] Transport refreshed (%u + %u services)",

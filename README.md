@@ -1,6 +1,6 @@
 # Daybreak
 
-Daybreak turns the CYD (Cheap Yellow Display), a 2.8-inch ESP32-2432S028 touchscreen, into a dashboard for the your home. It shows the time and weather, German transport departures, and Home Assistant toggles.
+Daybreak turns the CYD (Cheap Yellow Display), a 2.8-inch ESP32-2432S028 touchscreen, into a dashboard for your home. It shows the time and weather, German transport departures, and Home Assistant toggles.
 
 ## Features
 
@@ -20,7 +20,7 @@ Daybreak is designed for the 2.8-inch, 240 × 320 ILI9341 ESP32-2432S028 based C
 3. Press **Install Daybreak**, select the board's serial port, and follow the prompts.
 4. Follow the Wi-Fi setup on the screen after the board restarts.
 
-The installer uses ESP Web Tools and the firmware files from the [current release](https://github.com/vibudh007/Daybreak/releases/tag/v3.0.10-dev). It can offer to erase the device during installation. Erasing removes saved Wi-Fi and app settings; keep them when updating an existing Daybreak installation.
+The installer uses ESP Web Tools and the firmware files from the [current release](https://github.com/vibudh007/Daybreak/releases/tag/v3.0.13-dev). It can offer to erase the device during installation. Erasing removes saved Wi-Fi and app settings; keep them when updating an existing Daybreak installation.
 
 ### Option 2: Install locally
 
@@ -30,7 +30,7 @@ The installer uses ESP Web Tools and the firmware files from the [current releas
    python -m pip install esptool
    ```
 
-2. Download the `_FULL.bin` file from the [current release](https://github.com/vibudh007/Daybreak/releases/tag/v3.0.10-dev).
+2. Download the `_FULL.bin` file from the [current release](https://github.com/vibudh007/Daybreak/releases/tag/v3.0.13-dev).
 3. Connect the board and find its serial port: usually `/dev/ttyUSB0` on Linux or `COM5` on Windows. Replace `PORT` below with your port, and replace `FIRMWARE.bin` with the downloaded file name:
 
    ```sh
@@ -42,7 +42,7 @@ The installer uses ESP Web Tools and the firmware files from the [current releas
 The full image is for a fresh installation and clears saved app settings. To update an existing Daybreak installation while keeping settings, download the `_APP.bin` file instead and flash it at `0x10000`:
 
 ```sh
-python -m esptool --chip esp32 --port PORT write-flash 0x10000 Daybreak_v3.0.10-dev_R_APP.bin
+python -m esptool --chip esp32 --port PORT write-flash 0x10000 Daybreak_v3.0.13-dev_R_APP.bin
 ```
 
 ## Build from source

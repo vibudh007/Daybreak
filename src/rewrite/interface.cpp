@@ -262,7 +262,12 @@ void drawDestination(const UiRect &card, const transit::Service &service) {
         strip.setColorDepth(16);
         ready = strip.createSprite(109, 10) != nullptr;
     }
-    const String destination = displayText(service.direction);
+    String destination = service.useHeadsign ? service.standardDirection : service.direction;
+    if (service.useHeadsign) {
+        const int marker = destination.indexOf("Richtung ");
+        if (marker >= 0) destination = destination.substring(marker + 9);
+    }
+    destination = displayText(destination);
     const int width = tft.textWidth(destination, 1);
     const int overflow = max(0, width - 109);
     const unsigned long motionMs = static_cast<unsigned long>(overflow) * 95UL;
@@ -304,7 +309,7 @@ void transportColumn(int x, transit::Service *services, uint8_t count) {
         drawTransitProductIcon(card.x + 3, card.y + 4, uint8_t(s.product), 26);
         label(clip(displayText(s.line), 70), card.x + 34, card.y + 2, 2);
         label(eta(s), card.x + 108, card.y + 3, 2, getAccentColor());
-        String status = s.cancelled ? "Cancelled" :
+        String status = s.cancelled ? "Cancelled" : !s.hasDelay ? "Scheduled" :
             s.delaySeconds >= 60 ? String((s.delaySeconds + 30) / 60) + "m late" :
             s.delaySeconds <= -60 ? String((-s.delaySeconds + 30) / 60) + "m early" : "On time";
         if (s.remark.length()) status += " / " + displayText(s.remark);

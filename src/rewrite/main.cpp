@@ -8,7 +8,7 @@
 
 TFT_eSPI tft;
 bool isLightTheme = false;
-const char *FIRMWARE_VERSION = "3.0.10-dev";
+const char *FIRMWARE_VERSION = "3.0.13-dev";
 
 namespace {
 XPT2046_Touchscreen touchPanel(33, 36);

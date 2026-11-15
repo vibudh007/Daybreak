@@ -15,12 +15,13 @@ fi
 "$pio_command" run -e release -t clean
 "$pio_command" run -e release -t app
 
-app_file=(bin/Daybreak_v*_R_APP.bin)
-if [[ ${#app_file[@]} != 1 ]]; then
-    echo "Expected one release app image in bin/" >&2
+version="$(sed -n 's/.*FIRMWARE_VERSION = "\([^"]*\)".*/\1/p' src/rewrite/main.cpp)"
+app_file="bin/Daybreak_v${version}_R_APP.bin"
+if [[ -z "$version" || ! -f "$app_file" ]]; then
+    echo "Expected the current version's release app image in bin/" >&2
     exit 1
 fi
-base="${app_file[0]%_APP.bin}"
+base="${app_file%_APP.bin}"
 cp .pio/build/release/bootloader.bin "${base}_BOOTLOADER.bin"
 cp .pio/build/release/partitions.bin "${base}_PARTITIONS.bin"
 python -m esptool --chip esp32 merge-bin \
@@ -28,5 +29,5 @@ python -m esptool --chip esp32 merge-bin \
     -o "${base}_FULL.bin" \
     0x1000 "${base}_BOOTLOADER.bin" \
     0x8000 "${base}_PARTITIONS.bin" \
-    0x10000 "${app_file[0]}"
+    0x10000 "$app_file"
 printf 'Release images: %s_{APP,BOOTLOADER,PARTITIONS,FULL}.bin\n' "$base"
