@@ -24,14 +24,22 @@ constexpr UiRect HEADER_BACK_HIT{272, 2, 46, 38};
 constexpr UiRect PAGE_NEXT{283, 3, 34, 34};
 constexpr UiRect SETTINGS_BUTTON{270, 200, 50, 40};
 constexpr int PAGE_STATUS_RIGHT = SETTINGS_BUTTON.x - 8;
-constexpr int HOME_CLOCK_CENTER_X = 231;
-constexpr int HOME_DATE_Y = 181;
-constexpr int HOME_MOON_RIGHT = 146, HOME_MOON_BOTTOM = 232, HOME_MOON_RADIUS = 10;
-constexpr UiRect CLOCK_TIME_HIT{160, 20, 140, 100};
-constexpr UiRect CLOCK_SECONDS_HIT{160, 120, 140, 38};
-constexpr UiRect HOME_FORECAST_HIT{0, 138, 151, 102};
 constexpr int HEADER_H = 42;
 constexpr int MARGIN = 12;
+constexpr int HOME_GAP = 8;
+constexpr int HOME_COLUMN_W = (SCREEN_W - 2 * MARGIN - HOME_GAP) / 2;
+constexpr UiRect HOME_CURRENT{MARGIN, HEADER_H, HOME_COLUMN_W, 76};
+constexpr UiRect HOME_FORECAST{MARGIN, HOME_CURRENT.bottom() + HOME_GAP, HOME_COLUMN_W,
+                                SCREEN_H - 8 - HOME_CURRENT.bottom() - HOME_GAP};
+constexpr UiRect HOME_CLOCK{HOME_CURRENT.right() + HOME_GAP, HEADER_H, HOME_COLUMN_W, 152};
+constexpr int HOME_CLOCK_CENTER_X = HOME_CLOCK.x + HOME_CLOCK.w / 2;
+constexpr int HOME_DATE_Y = HOME_CLOCK.bottom() - 15;
+constexpr int HOME_MOON_RADIUS = 10;
+constexpr UiRect CLOCK_TIME_HIT{HOME_CLOCK.x, HOME_CLOCK.y, HOME_CLOCK.w, 84};
+constexpr UiRect CLOCK_SECONDS_HIT{HOME_CLOCK.x, CLOCK_TIME_HIT.bottom(), HOME_CLOCK.w, 38};
+static_assert(HOME_CLOCK.right() == SCREEN_W - MARGIN &&
+              HOME_CLOCK.bottom() + HOME_GAP <= SETTINGS_BUTTON.y + 2,
+              "Keep home cards aligned and clear of navigation");
 constexpr int LIST_X = 12, LIST_W = 250, LIST_ROW_H = 30, LIST_ROW_STEP = 34;
 constexpr int LIST_UP_X = 270, LIST_UP_Y = 68, LIST_DOWN_X = 270, LIST_DOWN_Y = 128;
 constexpr int LIST_VISIBLE = 4;
