@@ -40,21 +40,35 @@ static uint16_t buttonText(UiTone tone) {
     return getTextColor();
 }
 
-void beginScreen(const char *title, bool showBack) {
-    tft.fillScreen(getBgColor());
-    tft.setTextFont(0);
-    tft.setTextDatum(ML_DATUM);
+void drawHeaderText(const String &text, int left, int right, bool centered) {
+    tft.setFreeFont(&FreeSansBold9pt7b);
+    tft.setTextSize(1);
+    tft.setTextDatum(centered ? MC_DATUM : ML_DATUM);
     tft.setTextColor(getTextColor());
-    String fittedTitle = title ? title : "";
-    constexpr int TITLE_MAX_WIDTH = UiLayout::HEADER_BACK.x - UiLayout::MARGIN - 10;
-    if (tft.textWidth(fittedTitle, 4) > TITLE_MAX_WIDTH) {
+    const int maxWidth = right - left;
+    String fittedTitle = text;
+    if (tft.textWidth(fittedTitle) > maxWidth) {
         const String ellipsis = "...";
-        const int textWidth = TITLE_MAX_WIDTH - tft.textWidth(ellipsis, 4);
-        while (fittedTitle.length() && tft.textWidth(fittedTitle, 4) > textWidth)
-            fittedTitle.remove(fittedTitle.length() - 1);
+        while (fittedTitle.length() && tft.textWidth(fittedTitle + ellipsis) > maxWidth) {
+            unsigned int end = fittedTitle.length() - 1;
+            while (end > 0 && (fittedTitle[end] & 0xc0) == 0x80) --end;
+            fittedTitle.remove(end);
+        }
         fittedTitle += ellipsis;
     }
-    tft.drawString(fittedTitle, UiLayout::MARGIN, 22, 4);
+    tft.drawString(fittedTitle, centered ? (left + right) / 2 : left, UiLayout::HEADER_TEXT_Y);
+    tft.setTextFont(1);
+}
+
+void drawHeaderAction(const UiRect &rect, const char *text) {
+    fillSquircle(rect, raisedColor());
+    drawHeaderText(text, rect.x + 4, rect.right() - 4, true);
+}
+
+void beginScreen(const char *title, bool showBack) {
+    tft.fillScreen(getBgColor());
+    const int right = showBack ? UiLayout::HEADER_BACK.x - 8 : UiLayout::SCREEN_W - UiLayout::MARGIN;
+    drawHeaderText(title ? title : "", UiLayout::MARGIN, right);
     tft.drawFastHLine(UiLayout::MARGIN, UiLayout::HEADER_H, 296, surfaceColor());
     if (showBack) drawBackButton();
 }

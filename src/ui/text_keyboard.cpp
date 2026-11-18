@@ -43,13 +43,8 @@ void showTextKeyboard(const TextKeyboardConfig &config) {
 
 void drawTextKeyboard() {
     tft.fillScreen(getBgColor());
-    tft.setTextColor(getTextColor());
-    tft.setTextDatum(MC_DATUM);
-    tft.setFreeFont(&FreeSansBold12pt7b);
-    if (activeConfig.title && activeConfig.title[0]) {
-        if (tft.textWidth(activeConfig.title) > 300) tft.setFreeFont(&FreeSans9pt7b);
-        tft.drawString(activeConfig.title, UiLayout::SCREEN_W / 2, 20);
-    }
+    if (activeConfig.title && activeConfig.title[0])
+        ui::drawHeaderText(activeConfig.title, UiLayout::MARGIN, UiLayout::SCREEN_W - UiLayout::MARGIN, true);
 
     redrawTextKeyboardInput();
 

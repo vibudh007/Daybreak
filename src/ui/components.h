@@ -25,6 +25,7 @@ constexpr UiRect PAGE_NEXT{283, 3, 34, 34};
 constexpr UiRect SETTINGS_BUTTON{270, 200, 50, 40};
 constexpr int PAGE_STATUS_RIGHT = SETTINGS_BUTTON.x - 8;
 constexpr int HEADER_H = 42;
+constexpr int HEADER_TEXT_Y = 20;
 constexpr int MARGIN = 12;
 constexpr int HOME_GAP = 8;
 constexpr int HOME_COLUMN_W = (SCREEN_W - 2 * MARGIN - HOME_GAP) / 2;
@@ -60,7 +61,7 @@ constexpr UiRect PAGE_SETTINGS_DOWN(int row) { return {12, PAGE_SETTINGS_TOP + r
 constexpr UiRect PAGE_SETTINGS_TOGGLE(int row) { return {246, PAGE_SETTINGS_TOP + row * PAGE_SETTINGS_STEP + 18, 50, 28}; }
 
 constexpr UiRect TRANSPORT_ADD_STOP{55, 92, 210, 56};
-constexpr UiRect PAGE_CHANGE{216, 6, 64, 28};
+constexpr UiRect PAGE_CHANGE{202, 6, 78, 28};
 constexpr UiRect TRANSPORT_CHANGE_STOP = PAGE_CHANGE;
 constexpr UiRect HA_LOGIN{32, 108, 256, 52};
 constexpr UiRect HA_CHANGE = PAGE_CHANGE;
@@ -76,8 +77,12 @@ constexpr UiRect HA_SELECT_CONFIRM = FOOTER_RIGHT;
 constexpr UiRect HA_CONFIG_FIELD(int row) { return {12, 48 + row * 46, 296, 42}; }
 constexpr UiRect TRANSPORT_SEARCH_AGAIN = FOOTER_LEFT;
 constexpr UiRect TRANSPORT_CONFIRM_STOP = FOOTER_RIGHT;
-constexpr UiRect TRANSPORT_ROW(int column, int row) { return {column + 4, 48 + row * 42, 152, 39}; }
-constexpr UiRect TRANSPORT_COLUMN_DIVIDER{159, 42, 1, 172};
+constexpr int TRANSPORT_VISIBLE_ROWS = 4;
+constexpr UiRect TRANSPORT_ROW(int column, int row) { return {column + 4, HEADER_H + 1 + row * 39, 152, 36}; }
+constexpr int TRANSPORT_BOARD_BOTTOM = TRANSPORT_ROW(0, TRANSPORT_VISIBLE_ROWS - 1).bottom();
+constexpr UiRect TRANSPORT_COLUMN_DIVIDER{159, HEADER_H, 1, TRANSPORT_BOARD_BOTTOM - HEADER_H};
+static_assert(TRANSPORT_BOARD_BOTTOM + 4 <= SETTINGS_BUTTON.y,
+              "Keep all departure rows above the Settings touch area");
 
 constexpr UiRect WIFI_OTHER_NETWORK{12, 198, 140, 34};
 constexpr UiRect WEATHER_TEMPERATURE{12, 88, 296, 32};
@@ -151,6 +156,8 @@ uint16_t raisedColor();
 uint16_t accentColor();
 uint16_t mutedTextColor();
 void beginScreen(const char *title, bool showBack = true);
+void drawHeaderText(const String &text, int left, int right, bool centered = false);
+void drawHeaderAction(const UiRect &rect, const char *text);
 void drawBackButton();
 void drawButton(const UiRect &rect, const char *label, UiTone tone = UiTone::Secondary);
 void drawButton(int x, int y, int w, int h, const char *label, UiTone tone = UiTone::Secondary);

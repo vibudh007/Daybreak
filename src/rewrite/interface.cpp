@@ -258,9 +258,7 @@ void drawHome() {
     background::HomeSnapshot visibleHome;
     background::copyHome(visibleHome);
     tft.fillScreen(getBgColor());
-    constexpr int cityWidth = UiLayout::PAGE_NEXT.x - UiLayout::MARGIN - UiLayout::HOME_GAP;
-    homeText(clip(displayText(config.place.city), cityWidth, 4), UiLayout::MARGIN, 22,
-             ML_DATUM, 4, getTextColor());
+    ui::drawHeaderText(displayText(config.place.city), UiLayout::MARGIN, UiLayout::PAGE_NEXT.x - 8);
     drawWeather(visibleHome.weather, epoch);
     drawClock();
     const int previousDate = homeDate;
@@ -334,11 +332,11 @@ void drawDestination(const UiRect &card, const transit::Service &service) {
 void drawTransportDestinations() {
     const time_t now = time(nullptr);
     int row = 0;
-    for (int i = 0; i < visibleBoard.directionACount && row < 4; ++i)
+    for (int i = 0; i < visibleBoard.directionACount && row < UiLayout::TRANSPORT_VISIBLE_ROWS; ++i)
         if (upcoming(visibleBoard.directionA[i], now))
             drawDestination(UiLayout::TRANSPORT_ROW(0, row++), visibleBoard.directionA[i]);
     row = 0;
-    for (int i = 0; i < visibleBoard.directionBCount && row < 4; ++i)
+    for (int i = 0; i < visibleBoard.directionBCount && row < UiLayout::TRANSPORT_VISIBLE_ROWS; ++i)
         if (upcoming(visibleBoard.directionB[i], now))
             drawDestination(UiLayout::TRANSPORT_ROW(160, row++), visibleBoard.directionB[i]);
 }
@@ -346,7 +344,7 @@ void drawTransportDestinations() {
 void transportColumn(int x, transit::Service *services, uint8_t count) {
     const time_t now = time(nullptr);
     int row = 0;
-    for (int i = 0; i < count && row < 4; ++i) {
+    for (int i = 0; i < count && row < UiLayout::TRANSPORT_VISIBLE_ROWS; ++i) {
         const transit::Service &s = services[i];
         if (!upcoming(s, now)) continue;
         const UiRect card = UiLayout::TRANSPORT_ROW(x, row++);
@@ -359,7 +357,7 @@ void transportColumn(int x, transit::Service *services, uint8_t count) {
             s.delaySeconds <= -60 ? String((-s.delaySeconds + 30) / 60) + "m early" : "On time";
         if (s.remark.length()) status += " / " + displayText(s.remark);
         else if (s.platform.length()) status += " / Pl. " + displayText(s.platform);
-        label(clip(status, 109, 1), card.x + 34, card.y + 29, 1, s.cancelled ? getDangerColor() : getMutedTextColor());
+        label(clip(status, 109, 1), card.x + 34, card.y + 27, 1, s.cancelled ? getDangerColor() : getMutedTextColor());
     }
 }
 
@@ -368,11 +366,12 @@ void drawTransport() {
     background::copyBoard(visibleBoard);
     tft.fillScreen(getBgColor());
     if (visibleBoard.stop.id.isEmpty()) {
+        ui::drawHeaderText("Transport", UiLayout::MARGIN, UiLayout::PAGE_NEXT.x - 8);
         ui::drawButton(UiLayout::TRANSPORT_ADD_STOP, "Add stop", UiTone::Primary);
     } else {
         drawTransitProductIcon(10, 6, uint8_t(visibleBoard.stop.product), 26);
-        label(clip(visibleBoard.stop.name, 168), 44, 12, 2);
-        ui::drawButton(UiLayout::TRANSPORT_CHANGE_STOP, "Change");
+        ui::drawHeaderText(displayText(visibleBoard.stop.name), 44, UiLayout::TRANSPORT_CHANGE_STOP.x - 8);
+        ui::drawHeaderAction(UiLayout::TRANSPORT_CHANGE_STOP, "Change");
         tft.drawFastVLine(UiLayout::TRANSPORT_COLUMN_DIVIDER.x, UiLayout::TRANSPORT_COLUMN_DIVIDER.y,
                           UiLayout::TRANSPORT_COLUMN_DIVIDER.h, getMutedTextColor());
         transportColumn(0, visibleBoard.directionA, visibleBoard.directionACount);
@@ -394,11 +393,13 @@ void drawHa() {
         background::copyHaPage(haGridOffset, page);
     }
     tft.fillScreen(getBgColor());
-    if (!homeassistant::configured()) {
+    const bool configured = homeassistant::configured();
+    const int titleRight = configured ? UiLayout::HA_CHANGE.x : UiLayout::PAGE_NEXT.x;
+    ui::drawHeaderText("Home Assistant", UiLayout::MARGIN, titleRight - 8);
+    if (!configured) {
         ui::drawButton(UiLayout::HA_LOGIN, "Log Into Home Assistant", UiTone::Primary);
     } else {
-        label("Home Assistant", 12, 12, 2);
-        ui::drawButton(UiLayout::HA_CHANGE, "Change");
+        ui::drawHeaderAction(UiLayout::HA_CHANGE, "Change");
         if (!page.loaded) {
             label("Loading controls", 12, 74, 2, getMutedTextColor());
         } else if (page.selectedCount == 0) {
